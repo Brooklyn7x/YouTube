@@ -42,3 +42,13 @@ const Sidebar = () => {
 };
 
 export default Sidebar;
+{/* <div className="p-2 shadow-2xl w-16">
+    <ul>
+      <li>
+        <Link to="/">Home</Link>
+      </li>
+      <li>Shorts</li>
+      <li>Videos </li>
+      <li>Live</li>
+    </ul>
+  </div>); */}
