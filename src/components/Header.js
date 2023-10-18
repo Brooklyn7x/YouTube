@@ -7,6 +7,7 @@ import { json } from "react-router-dom";
 const Header = () => {
   const [searchQuery, setSearchQuery] = useState("");
   const [suggestion, setSuggestion] = useState([]);
+  const [showSuggestion, setShowSuggestion] = useState(false);
 
   useEffect(() => {
     const timmer = setTimeout(() => getSearchSuggestions(), 200);
@@ -53,18 +54,22 @@ const Header = () => {
             type="text"
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
+            onFocus={() => setShowSuggestion(true)}
+            onBlur={() => setShowSuggestion(false)}
           />
           <button className="border border-gray-200 p-2 rounded-r-full bg-gray-200">
             Search
           </button>
           <div className=" absolute bg-white w-[33rem]  mr-16 mt-12 rounded-lg shadow-2xl border-b-fuchsia-400 py-2 px-5">
-            <ul>
-              {suggestion.map((s) => (
-                <li key={s} className="py-2 shadow-sm">
-                  {s}
-                </li>
-              ))}
-            </ul>
+            {showSuggestion && (
+              <ul>
+                {suggestion.map((s) => (
+                  <li key={s} className="py-2 shadow-xs">
+                    {s}
+                  </li>
+                ))}
+              </ul>
+            )}
           </div>
         </div>
       </div>

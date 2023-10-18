@@ -3,6 +3,7 @@ import { useDispatch } from "react-redux";
 import { closeMenu } from "../utils/appSlice";
 import { useSearchParams } from "react-router-dom";
 import { YOUR_API_KEY } from "../utils/constants";
+import LiveChat from "./LiveChat";
 
 const WatchPage = () => {
   const [searchParams] = useSearchParams();
@@ -46,29 +47,34 @@ const WatchPage = () => {
   };
 
   return (
-    <div>
-      <div className="p-6">
+    <div className="flex flex-col w-full">
+      <div className="px-6 w-full">
         {loading && <p>Loading...</p>}
         {!loading && videoData && (
           <>
-            <iframe
-              className="rounded-2xl"
-              width="1100"
-              height="570"
-              src={"https://www.youtube.com/embed/" + searchParams.get("v")}
-              title="YouTube video player"
-              frameBorder="0"
-              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-              allowFullScreen
-            ></iframe>
-            <h1 className="font-bold py-2 px-2 text-lg">
+            <div className="flex">
+              <iframe
+                className="rounded-2xl"
+                width="1100"
+                height="570"
+                src={"https://www.youtube.com/embed/" + searchParams.get("v")}
+                title="YouTube video player"
+                frameBorder="0"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                allowFullScreen
+              ></iframe>
+              <div className="w-[440px]">
+                <LiveChat />
+              </div>
+            </div>
+            <h1 className="font-bold py-5 px-2 text-lg">
               {videoData.snippet.title}
             </h1>
           </>
         )}
       </div>
       {!loading && videoData && (
-        <div className="flex mx-8 -my-5 w-4/4">
+        <div className="flex mx-8   -my-4 w-[65rem]">
           <div>
             <img
               className="w-14 rounded-full my-1 "
@@ -80,7 +86,7 @@ const WatchPage = () => {
             <ul className="font-bold">{videoData.snippet.channelTitle} ☑️</ul>
             <ul className="text-xs">400K Subscribers</ul>
           </div>
-          <div className="mx-2 my-1 px-8 py-2 bg-gray-200 rounded-full">
+          <div className="mx-2 my-1 px-6 py-2 bg-gray-200 rounded-full">
             <button>🔕 Subscribe ⌵ </button>
           </div>
           <div className="px-8">
@@ -103,9 +109,15 @@ const WatchPage = () => {
         </div>
       )}
       {!loading && videoData && (
-        <div className="bg-gray-200 mx-6 my-9 rounded-2xl px-5 py-2">
+        <div className="bg-gray-200 mx-6 my-9 rounded-2xl px-5 py-2 w-[62rem]">
           <ul>{videoData.statistics.viewCount} views</ul>
-          {showMore && <ul>{videoData.snippet.description}</ul>}
+          {showMore && (
+            <ul>
+              {videoData.snippet.description.split("\n").map((line, index) => (
+                <li key={index}>{line}</li>
+              ))}
+            </ul>
+          )}
           <button onClick={handleShowMore}>
             {showMore ? "Show Less" : "Show More"}
           </button>
